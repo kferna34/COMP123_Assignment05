@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 /*
  * Name: Krytia Fernandez -- 300845885
  * Date Last Modified : Juy 19, 
- * Version :  0.0.0.2 file is loading , but the menu is still up when it shows
+ * Version :  0.0.0.3 == Everything works fine, just the comments are needed
  */
 namespace COMP123_Assignment05
 {
@@ -42,61 +42,49 @@ namespace COMP123_Assignment05
                     switch (InputSelection)
                     {
                         case 1:
-                            Console.WriteLine("Displaying all student grades");
-                            FileStream file = new FileStream("grades.txt", FileMode.Open, FileAccess.Read);
-                            StreamReader reader = new StreamReader(file);
-                            int count = 1;
-                            string name;
-                            ;
-                            name = reader.ReadLine();
-                            while (name != null)
-                            {
-                                Console.WriteLine("" + count + "" + name);
-                                name = reader.ReadLine();
-                                count++;
-                            }
-                            reader.Close();
-                            file.Close();
-                            Menu();
-
+                            DisplayGrades();
+                            Console.WriteLine("Please press enter to go back to the selection menu ");
+                            Console.ReadKey();
+                            Console.Clear();
                             break;
                         case 2:
-                            Console.ReadLine();
-                            
-                            Console.Clear();
+                            Console.WriteLine(" Press Enter to exit ");
+                            Console.ReadKey();
+                            SelectionMenu = false;
                             break;
                         default:
                             Console.Clear();
                             Console.WriteLine(" SORRY, THAT IS NOT AN OPTION, PLEASE TRY AGAIN!");
+                            Console.ReadKey();
 
                             break;
                     }
                 }
             } while (InputSelection != 2);
         }
-        //public static void DisplayGrades()
-        //{
-        //    Console.WriteLine("Displaying all student grades");
-        //    FileStream file = new FileStream("grades.txt", FileMode.Open, FileAccess.Read);
-        //    StreamReader reader = new StreamReader(file);
-        //    int count = 1;
-        //    string name;
-        //    ;
-        //    name = reader.ReadLine();
-        //    while (name != null)
-        //    {
-        //        Console.WriteLine("" + count + "" + name);
-        //        name = reader.ReadLine();
-        //        count++;
-        //    }
-        //    reader.Close();
-        //    file.Close();
-            
-
-        //}
+        public static void DisplayGrades()
+        {
+            Console.WriteLine("Displaying all student grades");
+            FileStream file = new FileStream("grades.txt", FileMode.Open, FileAccess.Read);
+            StreamReader reader = new StreamReader(file);
+            int count = 1;
+            string name;
+            ;
+            name = reader.ReadLine();
+            while (name != null)
+            {
+                Console.WriteLine("" + count + "" + name);
+                name = reader.ReadLine();
+                count++;
+            }
+            reader.Close();
+            file.Close();
 
 
-        
+        }
+
+
+
         public static void Exit()
         {
 
