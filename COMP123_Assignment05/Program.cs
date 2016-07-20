@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 /*
  * Name: Krytia Fernandez -- 300845885
  * Date Last Modified : Juy 19, 
- * Version :  0.0.0.3 == Everything works fine, just the comments are needed
+ * Version :  0.0.0.4 ==some descritions and the exception is created but not working..
  */
 namespace COMP123_Assignment05
 {
@@ -42,19 +42,19 @@ namespace COMP123_Assignment05
                     switch (InputSelection)
                     {
                         case 1:
-                            DisplayGrades();
+
+                            DisplayGrades();// refers to the method to open and show the file grade.txt
                             Console.WriteLine("Please press enter to go back to the selection menu ");
                             Console.ReadKey();
                             Console.Clear();
                             break;
                         case 2:
-                            Console.WriteLine(" Press Enter to exit ");
-                            Console.ReadKey();
+                            Exit();
                             SelectionMenu = false;
                             break;
                         default:
-                            Console.Clear();
-                            Console.WriteLine(" SORRY, THAT IS NOT AN OPTION, PLEASE TRY AGAIN!");
+                            Console.WriteLine(" SORRY, THAT IS NOT AN OPTION, PLEASE TRY AGAIN! --Press ENTER to show the menu");
+                            SelectionMenu = true;
                             Console.ReadKey();
 
                             break;
@@ -64,30 +64,49 @@ namespace COMP123_Assignment05
         }
         public static void DisplayGrades()
         {
-            Console.WriteLine("Displaying all student grades");
-            FileStream file = new FileStream("grades.txt", FileMode.Open, FileAccess.Read);
-            StreamReader reader = new StreamReader(file);
-            int count = 1;
-            string name;
-            ;
-            name = reader.ReadLine();
-            while (name != null)
-            {
-                Console.WriteLine("" + count + "" + name);
-                name = reader.ReadLine();
-                count++;
-            }
-            reader.Close();
-            file.Close();
+            Console.Write(" Enter File name : ");
+            if (Console.ReadLine().Equals("grades.txt"))
+                try
+                {
+                    Loading();
+                    Console.WriteLine(" File Loaded ");
+                    FileStream file = new FileStream("grades.txt", FileMode.Open, FileAccess.Read);//looks for the file grades.txt, then display it to the user
+                    StreamReader reader = new StreamReader(file);
+                    int count = 1;// the count or the numbering mode
+                    string theGradeFile;//declare the var
 
+                    theGradeFile = reader.ReadLine();
+                    while (theGradeFile != null)
+                    {
+                        Console.WriteLine("" + count + "" + theGradeFile);
+                        theGradeFile = reader.ReadLine();
+                        count++;
+                    }
+                    reader.Close();
+                    file.Close();
+
+                }
+
+                catch (Exception e)
+                {
+                    Console.WriteLine("ERROR NO SUCH FILE");
+
+                }
 
         }
 
+        public static void Loading()
+        {
+            Console.WriteLine("Loading the File............................");
+            Console.WriteLine("......................................................");
+            Console.WriteLine("................................................................");
+            Console.WriteLine();
 
+        }
 
         public static void Exit()
         {
-
+            Console.WriteLine(" Press Enter to exit ");
         }
     }
 
