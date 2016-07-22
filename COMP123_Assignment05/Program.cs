@@ -36,9 +36,11 @@ namespace COMP123_Assignment05
                     Console.WriteLine("=========================================");
                     Console.WriteLine();
                     Console.Write(" Your Choice ->  ", InputSelection);
-                    InputSelection = Int32.Parse(Console.ReadLine());
+                    try
+                    {
+                        InputSelection = Int32.Parse(Console.ReadLine());
                     Console.Clear();
-
+                    
                     switch (InputSelection)
                     {
                         case 1:
@@ -59,40 +61,81 @@ namespace COMP123_Assignment05
 
                             break;
                     }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("{0} Press any key to return to menu.",e.Message);
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
                 }
             } while (InputSelection != 2);
         }
         public static void DisplayGrades()
         {
+            const char DELIM = ',';
+            const string FILENAME = "grades.txt";
+
+            FileStream file = null;
+            StreamReader reader = null;
+
+            string recordInfo;
+            string[] fields;
+
+            Grades[] grades = new Grades[3];
             Console.Write(" Enter File name : ");
-            if (Console.ReadLine().Equals("grades.txt"))
+            if (Console.ReadLine().Equals(FILENAME))
+            {
                 try
                 {
                     Loading();
+                    file = new FileStream(FILENAME, FileMode.Open, FileAccess.Read);//looks for the file grades.txt, then display it to the user
+                    reader = new StreamReader(file);
+                    recordInfo = reader.ReadLine();
                     Console.WriteLine(" File Loaded ");
-                    FileStream file = new FileStream("grades.txt", FileMode.Open, FileAccess.Read);//looks for the file grades.txt, then display it to the user
-                    StreamReader reader = new StreamReader(file);
-                    int count = 1;// the count or the numbering mode
-                    string theGradeFile;//declare the var
 
-                    theGradeFile = reader.ReadLine();
-                    while (theGradeFile != null)
+                    try
                     {
-                        Console.WriteLine("" + count + "" + theGradeFile);
-                        theGradeFile = reader.ReadLine();
-                        count++;
+                        int count = 0;// the count or the numbering mode
+                        while (recordInfo != null)
+                        {
+                            Grades newGrade = new Grades();
+                            //Splits the long string from recordInfo and place them into the fields array 
+                            fields = recordInfo.Split(DELIM);
+                            newGrade.LName = fields[0];
+                            newGrade.FName = fields[1];
+                            newGrade.Grade = fields[2];
+
+                            grades[count] = newGrade;
+                            //reads new line
+                            recordInfo = reader.ReadLine();
+                            count++;
+
+                        }
+                        reader.Close();
+                        file.Close();
+
+                        foreach (Grades x in grades)
+                        {
+                            Console.WriteLine("{0} {1} {2}", x.FName, x.LName, x.Grade);
+                        }
+                        Console.WriteLine();
                     }
-                    reader.Close();
-                    file.Close();
-
+                    catch (Exception w)
+                    {
+                        Console.WriteLine(w.Message);
+                    }
                 }
-
                 catch (Exception e)
                 {
-                    Console.WriteLine("ERROR NO SUCH FILE");
-
+                    Console.WriteLine("ERROR NO SUCH FILE. {0}", e.Message);
                 }
 
+            }
+            else
+            {
+                Console.WriteLine("Filename incorrect.");
+            }
         }
 
         public static void Loading()
